@@ -212,7 +212,6 @@
               var events = [];
               var referrer = node;
               if (true) {
-                  
                   selector_str = '(string(properties["Url"]) == "' + event + '")'
                   
                   /* First Funnel Step */
@@ -220,17 +219,14 @@
                   /* Second Funnel Step.  They're currently on the current URL, but they came from a page in our prop list */
                   selector_str = '(string(properties["Url"]) == "' + referrer.name + '") and "' + event + '" in string(properties["$referrer"])'
                   events.push({'event': 'Page View', 'selector': selector_str });
-                
+                  
                 while (parent) {
-
                     selector_str = '("'+ referrer.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
                     
                     events.push({'event': 'Page View', 'selector': selector_str});
                     referrer = parent
                     parent = parent.parent
                 }
-                  
-                debugger;
                 
                 events.push(params)
                 promises.push(MP.api.funnel.apply(MP.api, events));
@@ -241,20 +237,20 @@
               /* promiseArray is a list of funnel responses */
               _.each(promiseArray, function(data){
                   /* data is a list of the funnel steps */
-                  
+                  debugger;
                   total = 0;
                   var length = data.length - 1;
                   _.each(_.values(data[length]), function(funnelObj){ total += funnelObj.count });
                   // nodes[_.values(data[length])[0].event] = total;
                   nodes[objs[promiseArray.indexOf(data)]] = total;
-                  console.log(nodes)
+                  
               });
             }).then(function(){
                /* Add Data to Graph Data */
                var total = _.values(nodes).reduce(function(a , b){return a + b;});
               
                _.each(_.keys(nodes), function(key){
-                 console.log(nodes)
+                 
                  /*
                     Build a node object with the conversion percentage and other meta data and add it to the children
                     of the parent node
@@ -305,6 +301,7 @@
 
           /* Find the Root Event Count */
           var rootEventCount = MP.api.funnel(rootEvent, params);
+          
           $.when(rootEventCount).done(function(eventCount){
               var eventTotal = 0;
               _.each(_.values(eventCount[0]), function(count){ eventTotal += count.count});
