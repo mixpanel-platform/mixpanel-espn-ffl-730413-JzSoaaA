@@ -214,16 +214,16 @@
               /* Changing this to true */
               // if (event != node.name) {
               if (true) {
-                /*
-                  List of Events
-                  [{event: foo, selector: 'url == "' + foourl + '")'}, {event: bar, selector:'url =="' + bar url+ '" and referrer == "' + foorurl + '"'}
-            
-                */
-                
-                
                 if (parent) {
                   
-                  selector_str = 'properties["Url"] == "' + node.name + '" and "' + parent.name + '" in properties["$referrer]"'
+                  while (parent) {
+                    if(parent.parent){                
+                      selector_str = '("'+ parent.parent.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
+                    }
+                    events.push({'event': 'Page View', 'selector': selector_str});
+                    parent = parent.parent
+                  }
+                  
                 } else {
                   /* It's the first node */
                   selector_str = '(string(properties["Url"]) == "' + event + '")'
@@ -236,16 +236,9 @@
                 }
                 
                 
-                while (parent) {
-                  if(parent.parent){                
-                    selector_str = '("'+ parent.parent.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
-                  }
-                  events.push({'event': 'Page View', 'selector': selector_str});
-                  parent = parent.parent
-                }
+                
                 
                 events.push(params)
-                console.log(events)
                 promises.push(MP.api.funnel.apply(MP.api, events));
               }
             });
