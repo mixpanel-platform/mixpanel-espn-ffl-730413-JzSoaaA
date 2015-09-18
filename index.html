@@ -210,7 +210,7 @@
               var parent = node.parent;
               var selector_str;
               var events = [];
-              
+              var referrer = node;
               if (true) {
                   
                   selector_str = '(string(properties["Url"]) == "' + event + '")'
@@ -218,15 +218,15 @@
                   /* First Funnel Step */
                   events.push({'event': 'Page View', 'selector': selector_str });
                   /* Second Funnel Step.  They're currently on the current URL, but they came from a page in our prop list */
-                  selector_str = '(string(properties["Url"]) == "' + node.name + '") and "' + event + '" in string(properties["$referrer"])'
+                  selector_str = '(string(properties["Url"]) == "' + referrer.name + '") and "' + event + '" in string(properties["$referrer"])'
                   events.push({'event': 'Page View', 'selector': selector_str });
                 
                 while (parent) {
 
-                    selector_str = '("'+ node.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
+                    selector_str = '("'+ referrer.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
                     
                     events.push({'event': 'Page View', 'selector': selector_str});
-                    node = parent
+                    referrer = parent
                     parent = parent.parent
                 }
                   
