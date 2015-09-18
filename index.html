@@ -55,7 +55,7 @@
       }
 
       var params = {
-        from: moment().subtract(29, 'days'),
+        from: moment().subtract(10, 'days'),
         to: moment(),
         length: 14,
         limit: 200,
@@ -68,7 +68,7 @@
         /* Find the Top Page URLS */
         
         var pageViewValueParams = {
-              limit: 5
+              limit: 25
           };
           
         var pageViewProps = MP.api.propertyValues('Page View', 'Url', pageViewValueParams)
@@ -311,7 +311,7 @@
             var topEvents = MP.api.topEvents(topEventsParams);
           */
 
-          /* Find Top URLS for ESPN's Page View Event */
+          /* Find Top URLS for ESPN's Page View Event 
           
           var pageViewValueParams = {
               limit: 5
@@ -319,11 +319,11 @@
           
           var pageViewProps = MP.api.propertyValues('Page View', 'Url', pageViewValueParams)
           
-          /* Funnel Queries */
           $.when(pageViewProps).done(function(props){
-              /* Cache top props */
               objs = props.values();
           });
+          */
+          
         });
        });
     </script>
