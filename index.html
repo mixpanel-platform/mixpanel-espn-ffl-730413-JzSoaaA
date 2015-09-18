@@ -245,7 +245,7 @@
                   nodes[objs[promiseArray.indexOf(data)]] = {};
                   nodes[objs[promiseArray.indexOf(data)]]['total'] = total
                   debugger;
-                  nodes[objs[promiseArray.indexOf(data)]]['conversion'] = data[length]['overall_conv_ratio']
+                  nodes[objs[promiseArray.indexOf(data)]]['conversion'] = data[length][_.keys(data[length])[0]]['overall_conv_ratio']
                 
               });
             }).then(function(){
