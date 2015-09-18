@@ -204,7 +204,7 @@
             /* Dict with top counts for each event */
             var nodes = {};
             var promises = [];
-            console.log(propList)
+            
             _.each(_.keys(propList), function(key) {
               var event = propList[key];
               var parent = node.parent;
@@ -244,6 +244,7 @@
                   // nodes[_.values(data[length])[0].event] = total;
                   nodes[objs[promiseArray.indexOf(data)]] = {};
                   nodes[objs[promiseArray.indexOf(data)]]['total'] = total
+                  debugger;
                   nodes[objs[promiseArray.indexOf(data)]]['conversion'] = data[length]['overall_conv_ratio']
                 
               });
