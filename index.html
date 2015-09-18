@@ -231,7 +231,7 @@
                   /* First Funnel Step */
                   events.push({'event': 'Page View', 'selector': selector_str });
                   /* Second Funnel Step.  They're currently on the current URL, but they came from a page in our prop list */
-                  selector_str = '(string(properties["Url"]) == "' + event + '") and "' + parent.name + '" in string(properties["$referrer"])'
+                  selector_str = '(string(properties["Url"]) == "' + event + '") and "' + node.name + '" in string(properties["$referrer"])'
                   events.push({'event': 'Page View', 'selector': selector_str });
                 }
                 
