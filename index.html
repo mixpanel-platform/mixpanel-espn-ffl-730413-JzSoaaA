@@ -226,12 +226,12 @@
                   selector_str = 'properties["Url"] == "' + node.name + '" and "' + parent.name + '" in properties["$referrer]"'
                 } else {
                   /* It's the first node */
-                  selector_str = '(string(properties["Url"]) == "' + node.name + '")'
+                  selector_str = '(string(properties["Url"]) == "' + event + '")'
                   
                   /* First Funnel Step */
                   events.push({'event': 'Page View', 'selector': selector_str });
                   /* Second Funnel Step.  They're currently on the current URL, but they came from a page in our prop list */
-                  selector_str = '(string(properties["Url"]) == "' + event + '") and "' + node.name + '" in string(properties["$referrer"])'
+                  selector_str = '(string(properties["Url"]) == "' + node.name + '") and "' + event + '" in string(properties["$referrer"])'
                   events.push({'event': 'Page View', 'selector': selector_str });
                 }
                 
