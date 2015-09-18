@@ -210,13 +210,12 @@
               var parent = node.parent;
               var selector_str;
               var events = [];
-              /* So this won't work for ESPN right?  all of their events are Page Views */
-              /* Changing this to true */
-              // if (event != node.name) {
+              
               if (true) {
                 if (parent) {
                   
                   while (parent) {
+                    debugger;
                     if(parent.parent){                
                       selector_str = '("'+ parent.parent.name + '" in string(properties["$referrer"]) and (string(properties["Url"] =="' + parent.name + '")))'
                     }
