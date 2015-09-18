@@ -55,7 +55,7 @@
       }
 
       var params = {
-        from: moment().subtract(29, 'days'),
+        from: moment().subtract(1, 'days'),
         to: moment(),
         length: 14,
         limit: 200,
@@ -147,7 +147,7 @@
           var link = allLinks.enter().append("path")
               .attr("class", "link")
               .style('stroke-width', function(d) {
-                return ( d.target.conversion );
+                return ( d.target.conversion * .18);
               });
 
           allLinks.transition().duration(1000).attr("d", diagonal);
