@@ -183,9 +183,9 @@
           node.append('svg:title')
             .text(function(d) {
               var count = 'Count: ' + String(d.count) + '\n';
-              var parent = 'Conversion From Parent Event: ' + String(d.conversion) + '%\n';
-              var root = 'Conversion From Root Event: ' + String(d.root) + '%';
-              return count + parent + root });
+              var parent = 'Conversion to the Parent Event: ' + String(d.conversion) + '%\n';
+              // var root = 'Conversion From Root Event: ' + String(d.root) + '%';
+              return count + parent});
           node.append("circle")
               .attr("r", 4.5);
 
@@ -237,17 +237,17 @@
               /* promiseArray is a list of funnel responses */
               _.each(promiseArray, function(data){
                   /* data is a list of the funnel steps */
-                  debugger;
+                  
                   var total = 0;
                   var length = data.length - 1;
                   _.each(_.values(data[length]), function(funnelObj){ total += funnelObj.count });
                   // nodes[_.values(data[length])[0].event] = total;
-                  nodes[objs[promiseArray.indexOf(data)]] = total;
-                  
+                  nodes[objs[promiseArray.indexOf(data)]] = {};
+                  nodes[objs[promiseArray.indexOf(data)]]['total'] = total
+                  nodes[objs[promiseArray.indexOf(data)]]['conversion'] = data[length]['overall_conv_ratio']
+                
               });
             }).then(function(){
-               /* Add Data to Graph Data */
-               var total = _.values(nodes).reduce(function(a , b){return a + b;});
               
                _.each(_.keys(nodes), function(key){
                 debugger;                 
@@ -258,8 +258,7 @@
                  
                  var eventName = toTitleCase(key.replace("/ffl/",""))
                   var rando = randomNum();
-                  var conversion = Math.floor(nodes[key] / node.count * 100);
-                  var root = Math.floor(nodes[key] / graphData.count * 100);
+                  var conversion = Math.floor(nodes[key]['conversion'] * 100)
                   if (conversion < 1 ) { return };
                   if (node.children) {
                       node.children.push({
@@ -268,7 +267,7 @@
                         'id':rando,
                         'root': root,
                         'conversion': conversion,
-                        'count':nodes[key]
+                        'count':nodes[key]['total']
                       });
                   } else {
                       node.children = [{
@@ -277,7 +276,7 @@
                         'id':rando,
                         'root': root,
                         'conversion': conversion,
-                        'count':nodes[key]
+                        'count':nodes[key]['total']
                       }];
                   }
                })
